@@ -4,6 +4,7 @@ void printLogo();	//print out logo
 void printMenu(int choice);	//print out starting menu
 int startingMenu(int choice);
 int secondMenu(int choice);
+int rankingMenu(int choice);
 
 int main() {
 	int choice = 0;
@@ -18,7 +19,7 @@ int main() {
 			choice = secondMenu(4);
 			break;
 		case 2:	//ranking			
-			choice = 0;
+			choice = rankingMenu(8);
 			break;
 		case 3:	//exit
 			return 0;
@@ -26,6 +27,13 @@ int main() {
 		case 5:
 		case 6:
 		case 7:
+			choice = 0;
+			break;
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
 			choice = 0;
 			break;
 		}
@@ -100,10 +108,44 @@ int secondMenu(int choice) {
 		}
 	}
 }
+int rankingMenu(int choice) {
+	int c;
+	printLogo();
+	printMenu(choice);
+	while (1) {
+		c = getch();
+		if (c == 13) {	//if ENTER return choice
+			return choice;
+		}
+		if (c == 224) {
+			c = getch();
+			switch (c) {
+			case 72:	//UP
+				if (choice > 8) {
+					choice--;
+				}
+				printLogo();
+				printMenu(choice);
+
+				break;
+			case 80:	//DOWN
+				if (choice < 12) {
+					choice++;
+				}
+				printLogo();
+				printMenu(choice);
+
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
 void printMenu(int choice) {
 	switch (choice) {
 	case 0:		
-	case 1:
+	case 1:	//STARTING MENU
 		printf("\t###################\n");
 		printf("\t#  --->  START    #\n");
 		printf("\t#        RANKING  #\n");
@@ -124,7 +166,7 @@ void printMenu(int choice) {
 		printf("\t#  --->  EXIT     #\n");
 		printf("\t###################\n");
 		break;
-	case 4:
+	case 4:	//SECOND MENU
 		printf("\t###################\n");
 		printf("\t#  --->  LESSONS  #\n");
 		printf("\t#        PRACTICE #\n");
@@ -156,6 +198,52 @@ void printMenu(int choice) {
 		printf("\t#  --->  BACK     #\n");
 		printf("\t###################\n");
 		break;
+	case 8:	//RANKING MENU
+		printf("\t###################\n");
+		printf("\t#  --->  WORDS    #\n");
+		printf("\t#        SHORT    #\n");
+		printf("\t#        LONG     #\n");
+		printf("\t#        GAME     #\n");
+		printf("\t#        BACK     #\n");
+		printf("\t###################\n");
+		break;
+	case 9:
+		printf("\t###################\n");
+		printf("\t#        WORDS    #\n");
+		printf("\t#  --->  SHORT    #\n");
+		printf("\t#        LONG     #\n");
+		printf("\t#        GAME     #\n");
+		printf("\t#        BACK     #\n");
+		printf("\t###################\n");
+		break;
+	case 10:
+		printf("\t###################\n");
+		printf("\t#        WORDS    #\n");
+		printf("\t#        SHORT    #\n");
+		printf("\t#  --->  LONG     #\n");
+		printf("\t#        GAME     #\n");
+		printf("\t#        BACK     #\n");
+		printf("\t###################\n");
+		break;
+	case 11:
+		printf("\t###################\n");
+		printf("\t#        WORDS    #\n");
+		printf("\t#        SHORT    #\n");
+		printf("\t#        LONG     #\n");
+		printf("\t#  --->  GAME     #\n");
+		printf("\t#        BACK     #\n");
+		printf("\t###################\n");
+		break;
+	case 12:
+		printf("\t###################\n");
+		printf("\t#        WORDS    #\n");
+		printf("\t#        SHORT    #\n");
+		printf("\t#        LONG     #\n");
+		printf("\t#        GAME     #\n");
+		printf("\t#  --->  BACK     #\n");
+		printf("\t###################\n");
+		break;	
+
 	}
 }
 void printLogo() {
