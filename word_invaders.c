@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 #define X 60
 #define Y 20
 typedef struct invaders {
@@ -8,11 +9,12 @@ typedef struct invaders {
 
 void printScreen();
 void screenInitialize();
-void wordArray();
+void wordArray(word *w);
 int screen[Y][X];
 
 int main() {
-
+	word w[6];
+	wordArray(w); //crreae word array
 	screenInitialize();	//initialize screen array value to -1
 	printScreen();
 	return 0;
@@ -52,12 +54,14 @@ void screenInitialize() {
 		}		
 	}
 }
-void wordArray() {
-	FILE *fp;
+void wordArray(word *w) {
+	FILE *fp;	
+	int i = 0;
 	char buffer[20];
 	fp = fopen("level1.txt", "r");
 	while (fgets(buffer, 20, fp) != NULL) {
-
-
+		w[i].point = strlen(buffer) - 1;
+		strcpy(w[i].alien, buffer);
+		i++;
 	}
 }
