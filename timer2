@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
+int main(void)
+{
+ int i,total=0;
+ time_t tStart, tEnd;
+ double elapsed_time; 
+ char input[100];
+ char text[5][100] =
+ {
+  "hello",
+  "In particular, we focused on the current account last time. ",
+ "In particular, we focused on the current account last time.",
+   "In particular, we focused on the current account last time."
+
+ };
+ printf("타자 연습입니다.\n");
+ system("pause");
+ printf("< S T A R T>\n\n");
+ 
+  
+
+
+ for(i = 0; i < 4; i++)
+ {
+  puts(text[i]); 
+  gets(input);
+  if(i==0)
+	  time(&tStart);
+  total += strlen(input);
+
+ }
+  time(&tEnd);
+ 
+ printf("\n");
+ elapsed_time = difftime(tEnd, tStart);
+ printf("total %d수\n",total);
+ printf("경과 속도 %0.0lf초\n",elapsed_time);
+ printf("\n타자 속도 %0.0lf 타\n ", (total/elapsed_time)*60);
+
+ return 0;
+ 
+} 
