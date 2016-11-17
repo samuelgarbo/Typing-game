@@ -10,11 +10,11 @@ typedef struct invaders {
 void printScreen();
 void screenInitialize();
 void wordArray(word *w);
-int screen[Y][X];
+char screen[Y][X];
 
 int main() {
 	word w[6];
-	wordArray(w); //crreae word array
+	wordArray(w); //create word array
 	screenInitialize();	//initialize screen array value to -1
 	printScreen();
 	return 0;
@@ -33,7 +33,8 @@ void printScreen() {
 				printf("#");
 			}
 			//content
-			printf(" ");
+			printf("%c", screen[i][j]);
+			
 			//right frame
 			if (j == X - 1) {
 				printf("#");
@@ -50,7 +51,7 @@ void screenInitialize() {
 	int i, j;
 	for (i = 0; i < Y; i++) {
 		for (j = 0; j < X; j++) {
-			screen[i][j] = -1;
+			screen[i][j] = ' ';
 		}		
 	}
 }
