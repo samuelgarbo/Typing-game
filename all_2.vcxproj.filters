@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Main">
+      <UniqueIdentifier>{5447dfa2-b827-473d-b13a-38f4ba2db3c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Menu">
+      <UniqueIdentifier>{5240dabe-3865-4d43-a3a4-d8204abdc0e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\etc">
+      <UniqueIdentifier>{4e88a0f1-5246-4240-9692-cee4c0dc089b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ExampleSentence">
+      <UniqueIdentifier>{50f9ffa2-e0b8-4090-92f3-4fa2c219a286}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.c">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="StartingMenu.c">
+      <Filter>소스 파일\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondMenu.c">
+      <Filter>소스 파일\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="RankingMenu.c">
+      <Filter>소스 파일\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintMenu.c">
+      <Filter>소스 파일\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintLogo.c">
+      <Filter>소스 파일\etc</Filter>
+    </ClCompile>
+    <ClCompile Include="LongSP.c">
+      <Filter>소스 파일\ExampleSentence</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortSP.c">
+      <Filter>소스 파일\ExampleSentence</Filter>
+    </ClCompile>
+    <ClCompile Include="WordP.c">
+      <Filter>소스 파일\ExampleSentence</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="System.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
