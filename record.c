@@ -4,18 +4,18 @@
 #include <conio.h>
 #include <time.h>
 
-void ScreedRanking(), ScreedRecordWrite(); // ±ä ±Û ·©Å· ÇÔ¼ö, ±ä ±Û ±â·Ï ¾²±â ÇÔ¼ö.
-void ShortRanking(), ShortRecordWrite(); // ÂªÀº ±Û ·©Å· ÇÔ¼ö, ÂªÀº ±Û ±â·Ï ¾²±â ÇÔ¼ö.
-void WordRanking(), WordRecordWrite(); // ´Ü¾î ·©Å· ÇÔ¼ö, ´Ü¾î ±â·Ï ¾²±â ÇÔ¼ö.
-void GameRanking(), GameRecordWrite(); // °ÔÀÓ ·©Å· ÇÔ¼ö, °ÔÀÓ ±â·Ï ¾²±â ÇÔ¼ö.
+void LongRanking(), LongRecordWrite(); // ê¸´ ê¸€ ë­í‚¹ í•¨ìˆ˜, ê¸´ ê¸€ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜.
+void ShortRanking(), ShortRecordWrite(); // ì§§ì€ ê¸€ ë­í‚¹ í•¨ìˆ˜, ì§§ì€ ê¸€ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜.
+void WordRanking(), WordRecordWrite(); // ë‹¨ì–´ ë­í‚¹ í•¨ìˆ˜, ë‹¨ì–´ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜.
+void GameRanking(), GameRecordWrite(); // ê²Œì„ ë­í‚¹ í•¨ìˆ˜, ê²Œì„ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜.
 
 typedef struct {
-	int rank; // ¼øÀ§.
-	char name[20]; // ÀÌ¸§.
-	int TypingSpeed; // Å¸ÀÌÇÎ ¼Óµµ.
-	int accuracy; // Á¤È®µµ.
-	int point; // Á¡¼ö.
-	char date[20]; // ³¯Â¥.
+	int rank; // ìˆœìœ„.
+	char name[20]; // ì´ë¦„.
+	int TypingSpeed; // íƒ€ì´í•‘ ì†ë„.
+	int accuracy; // ì •í™•ë„.
+	int point; // ì ìˆ˜.
+	char date[20]; // ë‚ ì§œ.
 }RECORD;
 
 int main()
@@ -24,14 +24,14 @@ int main()
 
 	while(1)
 	{
-	printf("1. ±ä ±Û ±â·Ï\n2. ÂªÀº ±Û ±â·Ï\n3. ´Ü¾î ±â·Ï\n4. °ÔÀÓ ±â·Ï\n\n");
-	printf("¸Ş´º ¼±ÅÃ : ");
+	printf("1. ê¸´ ê¸€ ê¸°ë¡\n2. ì§§ì€ ê¸€ ê¸°ë¡\n3. ë‹¨ì–´ ê¸°ë¡\n4. ê²Œì„ ê¸°ë¡\n\n");
+	printf("ë©”ë‰´ ì„ íƒ : ");
 	scanf("%d", &MenuSelect);
 
 	switch(MenuSelect)
 	{
 	case 1:
-		ScreedRanking();
+		LongRanking();
 		getch();
 		system("cls");
 		break;
@@ -54,11 +54,11 @@ int main()
 	}
 }
  
-void ScreedRanking() // ±ä ±Û ·©Å· ÇÔ¼ö.
+void LongRanking() // ê¸´ ê¸€ ë­í‚¹ í•¨ìˆ˜.
 {
 	int i = 0, j = 0;
-	int count = 0; // ¹è¿­ ¹æ °¹¼ö È®ÀÎ º¯¼ö (¸î °³ÀÇ ±â·ÏÀÌ ÀúÀå µÇ¾î ÀÖ´ÂÁö È®ÀÎ).
-	FILE *r1 = fopen("ScreedRecord.txt", "r"); // ÅØ½ºÆ® ÆÄÀÏ ÀĞ±â ¸ğµå·Î ¿­±â.
+	int count = -1; // ë°°ì—´ ë°© ê°¯ìˆ˜ í™•ì¸ ë³€ìˆ˜ (ëª‡ ê°œì˜ ê¸°ë¡ì´ ì €ì¥ ë˜ì–´ ìˆëŠ”ì§€ í™•ì¸).
+	FILE *r1 = fopen("LongRecord.txt", "r"); // í…ìŠ¤íŠ¸ íŒŒì¼ ì½ê¸° ëª¨ë“œë¡œ ì—´ê¸°.
 
 	RECORD sr[50], temp_sr;
 
@@ -69,10 +69,7 @@ void ScreedRanking() // ±ä ±Û ·©Å· ÇÔ¼ö.
 		count++;	
 	}
 
-	if (count-1 == 0)
-		printf("ÀúÀåµÈ ±â·ÏÀÌ ¾ø½À´Ï´Ù.\n");
-
-	for( i = 0; i < count; i++ ) // Á¤È®µµ¸¦ 1¼øÀ§, Å¸ÀÌÇÎ ¼Óµµ¸¦ 2¼øÀ§·Î ³»¸²Â÷¼øÀ¸·Î ¹è¿­ Á¤¸®.
+	for( i = 0; i < count; i++ ) // ì •í™•ë„ë¥¼ 1ìˆœìœ„, íƒ€ì´í•‘ ì†ë„ë¥¼ 2ìˆœìœ„ë¡œ ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ ë°°ì—´ ì •ë¦¬.
 	{
 		for( j = i + 1; j < count; j++ ) 
 		{
@@ -92,7 +89,7 @@ void ScreedRanking() // ±ä ±Û ·©Å· ÇÔ¼ö.
 		}
 	}
 
-	for (i = 0; i < count; i++) // Á¤È®µµ¸¦ 1¼øÀ§, Å¸ÀÌÇÎ ¼Óµµ¸¦ 2¼øÀ§·Î ¼øÀ§ ¸Å±â±â.
+	for (i = 0; i < count; i++) // ì •í™•ë„ë¥¼ 1ìˆœìœ„, íƒ€ì´í•‘ ì†ë„ë¥¼ 2ìˆœìœ„ë¡œ ìˆœìœ„ ë§¤ê¸°ê¸°.
     {
                  sr[i].rank=1;
                  for(j=0; j < count; j++)
@@ -105,35 +102,36 @@ void ScreedRanking() // ±ä ±Û ·©Å· ÇÔ¼ö.
 				 }
 	}
 
-	if (count - 1 >= 10) // ÀúÀåµÈ ±â·ÏÀÌ 10°³ ÀÌ»óÀÌ¶ó¸é TOP 10 Ãâ·Â.
+	if (count  >= 10) // ì €ì¥ëœ ê¸°ë¡ì´ 10ê°œ ì´ìƒì´ë¼ë©´ TOP 10 ì¶œë ¥.
+	{
+		printf(" 5ìˆœìœ„            ì´ë¦„         ì •í™•ë„       íƒ€ì´í•‘ ì†ë„            ë‚ ì§œ\n\n");
 		for (i = 0; i < 10; i++)
-			printf(" %2d.   ÀÌ¸§ : %s\tÁ¤È®µµ : %2d\tÅ¸ÀÌÇÎ ¼Óµµ : %2d\t³¯Â¥ : %2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
-	else if (0 < count - 1 < 10) // ÀúÀåµÈ ±â·ÏÀÌ 1~10°³¶ó¸é ÀúÀåµÈ ±â·Ï ¸ğµÎ Ãâ·Â.
-		for (i = 0; i < count-1; i++)
-			printf(" %2d.   ÀÌ¸§ : %s\tÁ¤È®µµ : %2d\tÅ¸ÀÌÇÎ ¼Óµµ : %2d\t³¯Â¥ : %2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
-
+			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}
+	else // ì €ì¥ëœ ê¸°ë¡ì´ 1~10ê°œë¼ë©´ ì €ì¥ëœ ê¸°ë¡ ëª¨ë‘ ì¶œë ¥.
+	{
+		printf(" ìˆœìœ„            ì´ë¦„         ì •í™•ë„       íƒ€ì´í•‘ ì†ë„            ë‚ ì§œ\n\n");
+		for (i = 0; i < count; i++)
+			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}	
 	fclose(r1);
 }
 
-void ShortRanking() // ÂªÀº ±Û ·©Å· ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ·©Å· ÇÔ¼ö" ÂüÁ¶).
+void ShortRanking() // ì§§ì€ ê¸€ ë­í‚¹ í•¨ìˆ˜ (ìì„¸í•œ ì‚¬í•­ì€ "ê¸´ ê¸€ ë­í‚¹ í•¨ìˆ˜" ì°¸ì¡°).
 {
 	int i = 0, j = 0;
-	int count = 0;
+	int count = -1;
 	FILE *r2 = fopen("ShortRecord.txt", "r");
 
 	RECORD sr[50], temp_sr;
-
-	//for(i = 0; i < count; i++)
+	
 	while(!feof(r2))
 	{
 		fscanf(r2, "%s %d %d %s", sr[i].name,  &sr[i].accuracy, &sr[i].TypingSpeed, sr[i].date);
 		i++;	
 		count++;
 	}
-
-	if (count - 1 == 0)
-		printf("ÀúÀåµÈ ±â·ÏÀÌ ¾ø½À´Ï´Ù.\n");
-
+	
 	for( i = 0; i < count; i++ )
 	{
 		for( j = i + 1; j < count; j++ ) 
@@ -167,24 +165,29 @@ void ShortRanking() // ÂªÀº ±Û ·©Å· ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ·©Å· ÇÔ¼ö" ÂüÁ¶).
 				 }
 	}
 
-	if (count - 1 >= 10)
+	if (count  >= 10) // ì €ì¥ëœ ê¸°ë¡ì´ 10ê°œ ì´ìƒì´ë¼ë©´ TOP 10 ì¶œë ¥.
+	{
+		printf(" 5ìˆœìœ„            ì´ë¦„         ì •í™•ë„       íƒ€ì´í•‘ ì†ë„            ë‚ ì§œ\n\n");
 		for (i = 0; i < 10; i++)
-			printf(" %2d.   ÀÌ¸§ : %s\tÁ¤È®µµ : %2d\tÅ¸ÀÌÇÎ ¼Óµµ : %2d\t³¯Â¥ : %2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
-	else
-		for (i = 0; i < count - 1; i++)
-			printf(" %2d.   ÀÌ¸§ : %s\tÁ¤È®µµ : %2d\tÅ¸ÀÌÇÎ ¼Óµµ : %2d\t³¯Â¥ : %2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}
+	else // ì €ì¥ëœ ê¸°ë¡ì´ 1~10ê°œë¼ë©´ ì €ì¥ëœ ê¸°ë¡ ëª¨ë‘ ì¶œë ¥.
+	{
+		printf(" ìˆœìœ„            ì´ë¦„         ì •í™•ë„       íƒ€ì´í•‘ ì†ë„            ë‚ ì§œ\n\n");
+		for (i = 0; i < count; i++)
+			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}	
 	fclose(r2);
 }
 
-void WordRanking() // ´Ü¾î ·©Å· ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ·©Å· ÇÔ¼ö" ÂüÁ¶).
+void WordRanking() // ë‹¨ì–´ ë­í‚¹ í•¨ìˆ˜ (ìì„¸í•œ ì‚¬í•­ì€ "ê¸´ ê¸€ ë­í‚¹ í•¨ìˆ˜" ì°¸ì¡°).
 {
 	int i = 0, j = 0;
-	int count = 0;
+	int count = -1;
 	FILE *r3 = fopen("WordRecord.txt", "r");
 
 	RECORD sr[50], temp_sr;
-
-	//for(i = 0; i < count; i++)
+	
 	while(!feof(r3))
 	{
 		fscanf(r3, "%s %d %d %s", sr[i].name,  &sr[i].accuracy, &sr[i].TypingSpeed, sr[i].date);
@@ -192,9 +195,6 @@ void WordRanking() // ´Ü¾î ·©Å· ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ·©Å· ÇÔ¼ö" ÂüÁ¶).
 		count++;
 	}
 
-	if (count - 1 == 0)
-		printf("ÀúÀåµÈ ±â·ÏÀÌ ¾ø½À´Ï´Ù.\n");
-
 	for( i = 0; i < count; i++ )
 	{
 		for( j = i + 1; j < count; j++ ) 
@@ -228,33 +228,35 @@ void WordRanking() // ´Ü¾î ·©Å· ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ·©Å· ÇÔ¼ö" ÂüÁ¶).
 				 }
 	}
 
-	if (count - 1 >= 10)
+	if (count  >= 10) // ì €ì¥ëœ ê¸°ë¡ì´ 10ê°œ ì´ìƒì´ë¼ë©´ TOP 10 ì¶œë ¥.
+	{
+		printf(" 5ìˆœìœ„            ì´ë¦„         ì •í™•ë„       íƒ€ì´í•‘ ì†ë„            ë‚ ì§œ\n\n");
 		for (i = 0; i < 10; i++)
-			printf(" %2d.   ÀÌ¸§ : %s\tÁ¤È®µµ : %2d\tÅ¸ÀÌÇÎ ¼Óµµ : %2d\t³¯Â¥ : %2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
-	else
-		for (i = 0; i < count - 1; i++)
-			printf(" %2d.   ÀÌ¸§ : %s\tÁ¤È®µµ : %2d\tÅ¸ÀÌÇÎ ¼Óµµ : %2d\t³¯Â¥ : %2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}
+	else // ì €ì¥ëœ ê¸°ë¡ì´ 1~10ê°œë¼ë©´ ì €ì¥ëœ ê¸°ë¡ ëª¨ë‘ ì¶œë ¥.
+	{
+		printf(" ìˆœìœ„            ì´ë¦„         ì •í™•ë„       íƒ€ì´í•‘ ì†ë„            ë‚ ì§œ\n\n");
+		for (i = 0; i < count; i++)
+			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}	
 	fclose(r3);
 }
 
-void GameRanking() // °ÔÀÓ ·©Å· ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ·©Å· ÇÔ¼ö" ÂüÁ¶).
+void GameRanking() // ê²Œì„ ë­í‚¹ í•¨ìˆ˜ (ìì„¸í•œ ì‚¬í•­ì€ "ê¸´ ê¸€ ë­í‚¹ í•¨ìˆ˜" ì°¸ì¡°).
 {
 	int i = 0, j = 0;
-	int count = 0;
+	int count = -1;
 	FILE *r4 = fopen("GameRecord.txt", "r");
 
 	RECORD sr[50], temp_sr;
-
-	//for(i = 0; i < count; i++)
+	
 	while(!feof(r4))
 	{
 		fscanf(r4, "%s %d", sr[i].name, &sr[i].point);
 		i++;	
 		count++;
 	}
-
-	if (count - 1 == 0)
-		printf("ÀúÀåµÈ ±â·ÏÀÌ ¾ø½À´Ï´Ù.\n");
 
 	for( i = 0; i < count; i++ )
 	{
@@ -270,7 +272,7 @@ void GameRanking() // °ÔÀÓ ·©Å· ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ·©Å· ÇÔ¼ö" ÂüÁ¶).
 		}
 	}
 
-	for(i=0; i < count ; i++)
+	for(i=0; i < count; i++)
     {
                  sr[i].rank=1;
                  for(j=0; j < count; j++)
@@ -278,17 +280,23 @@ void GameRanking() // °ÔÀÓ ·©Å· ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ·©Å· ÇÔ¼ö" ÂüÁ¶).
 							 sr[i].rank++;
     }
 
-	if (count - 1 >= 10)
+	if (count >= 10)
+	{
+		printf(" ìˆœìœ„            ì´ë¦„          ê²Œì„\n\n");
 		for (i = 0; i < 10; i++)
-			printf(" %2d.   ÀÌ¸§ : %s\tÁ¡¼ö : %2d\n", sr[i].rank, sr[i].name, sr[i].point);
+			printf(" %2d\t\t%s\t\t%2d\n", sr[i].rank, sr[i].name, sr[i].point);
+	}
 	else
-		for (i = 0; i < count - 1; i++)
-			printf(" %2d.   ÀÌ¸§ : %s\tÁ¡¼ö : %2d\n", sr[i].rank, sr[i].name, sr[i].point);
+	{
+		printf(" ìˆœìœ„            ì´ë¦„          ê²Œì„\n\n");
+		for (i = 0; i < count; i++)
+			printf(" %2d\t\t%s\t\t%2d\n", sr[i].rank, sr[i].name, sr[i].point);
+	}		
 		
 	fclose(r4);
 }
 
-void ScreedRecordWrite() // ±ä ±Û ±â·Ï ¾²±â ÇÔ¼ö.
+void LongRecordWrite() // ê¸´ ê¸€ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜.
 {
 	time_t timer;
 	struct tm *t;
@@ -296,23 +304,23 @@ void ScreedRecordWrite() // ±ä ±Û ±â·Ï ¾²±â ÇÔ¼ö.
 	timer = time(NULL);
 	t = localtime(&timer);
 
-	FILE *rf = fopen("ScreedRecord.txt", "a"); // ÅØ½ºÆ® ÆÄÀÏ a ¸ğµå·Î ¿­±â.
+	FILE *rf = fopen("LongRecord.txt", "a"); // í…ìŠ¤íŠ¸ íŒŒì¼ a ëª¨ë“œë¡œ ì—´ê¸°.
 
 	char name[20];
 	int Ts;
 	int ac;
-	printf("»ç¿ëÀÚÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ½Ã¿À : ");
+	printf("ì‚¬ìš©ìì˜ ì´ë¦„ì„ ì…ë ¥í•˜ì‹œì˜¤ : ");
 	scanf("%s", name);	
-	printf("»ç¿ëÀÚÀÇ Å¸ÀÌÇÎ ¼Óµµ : ");
+	printf("ì‚¬ìš©ìì˜ íƒ€ì´í•‘ ì†ë„ : ");
 	scanf("%d", &Ts);
-	printf("»ç¿ëÀÚÀÇ Á¤È®µµ : ");
+	printf("ì‚¬ìš©ìì˜ ì •í™•ë„ : ");
 	scanf("%d", &ac);
 
-	fprintf(rf, "%s %d %d %d %d %d\n", name, ac, Ts, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday); // ÆÄÀÏ¿¡ ¾²±â.
+	fprintf(rf, "%s %d %d %d %d %d\n", name, ac, Ts, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday); // íŒŒì¼ì— ì“°ê¸°.
 	fclose(rf);
 }
 
-void ShortRecordWrite() // ÂªÀº ±Û ±â·Ï ¾²±â ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ±â·Ï ¾²±â ÇÔ¼ö" ÂüÁ¶).
+void ShortRecordWrite() // ì§§ì€ ê¸€ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜ (ìì„¸í•œ ì‚¬í•­ì€ "ê¸´ ê¸€ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜" ì°¸ì¡°).
 {
 	time_t timer;
 	struct tm *t;
@@ -325,18 +333,18 @@ void ShortRecordWrite() // ÂªÀº ±Û ±â·Ï ¾²±â ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ±â·Ï ¾²±
 	char name[20];
 	int Ts;
 	int ac;
-	printf("»ç¿ëÀÚÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ½Ã¿À : ");
+	printf("ì‚¬ìš©ìì˜ ì´ë¦„ì„ ì…ë ¥í•˜ì‹œì˜¤ : ");
 	scanf("%s", name);	
-	printf("»ç¿ëÀÚÀÇ Å¸ÀÌÇÎ ¼Óµµ : ");
+	printf("ì‚¬ìš©ìì˜ íƒ€ì´í•‘ ì†ë„ : ");
 	scanf("%d", &Ts);
-	printf("»ç¿ëÀÚÀÇ Á¤È®µµ : ");
+	printf("ì‚¬ìš©ìì˜ ì •í™•ë„ : ");
 	scanf("%d", &ac);
 
 	fprintf(rf, "%s %d %d %d %d %d\n", name, ac, Ts, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday);
 	fclose(rf);
 }
 
-void WordRecordWrite() // ´Ü¾î ±â·Ï ¾²±â ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ±â·Ï ¾²±â ÇÔ¼ö" ÂüÁ¶).
+void WordRecordWrite() // ë‹¨ì–´ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜ (ìì„¸í•œ ì‚¬í•­ì€ "ê¸´ ê¸€ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜" ì°¸ì¡°).
 {
 	time_t timer;
 	struct tm *t;
@@ -349,18 +357,18 @@ void WordRecordWrite() // ´Ü¾î ±â·Ï ¾²±â ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ±â·Ï ¾²±â ÇÔ
 	char name[20];
 	int Ts;
 	int ac;
-	printf("»ç¿ëÀÚÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ½Ã¿À : ");
+	printf("ì‚¬ìš©ìì˜ ì´ë¦„ì„ ì…ë ¥í•˜ì‹œì˜¤ : ");
 	scanf("%s", name);	
-	printf("»ç¿ëÀÚÀÇ Å¸ÀÌÇÎ ¼Óµµ : ");
+	printf("ì‚¬ìš©ìì˜ íƒ€ì´í•‘ ì†ë„ : ");
 	scanf("%d", &Ts);
-	printf("»ç¿ëÀÚÀÇ Á¤È®µµ : ");
+	printf("ì‚¬ìš©ìì˜ ì •í™•ë„ : ");
 	scanf("%d", &ac);
 
 	fprintf(rf, "%s %d %d %d %d %d\n", name, ac, Ts, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday);
 	fclose(rf);
 }
 
-void GameRecordWrite() // °ÔÀÓ ±â·Ï ¾²±â ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ±â·Ï ¾²±â ÇÔ¼ö" ÂüÁ¶).
+void GameRecordWrite() // ê²Œì„ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜ (ìì„¸í•œ ì‚¬í•­ì€ "ê¸´ ê¸€ ê¸°ë¡ ì“°ê¸° í•¨ìˆ˜" ì°¸ì¡°).
 {
 	time_t timer;
 	struct tm *t;
@@ -373,9 +381,9 @@ void GameRecordWrite() // °ÔÀÓ ±â·Ï ¾²±â ÇÔ¼ö (ÀÚ¼¼ÇÑ »çÇ×Àº "±ä ±Û ±â·Ï ¾²±â ÇÔ
 	char name[20];
 	int point;
 	int ac;
-	printf("»ç¿ëÀÚÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ½Ã¿À : ");
+	printf("ì‚¬ìš©ìì˜ ì´ë¦„ì„ ì…ë ¥í•˜ì‹œì˜¤ : ");
 	scanf("%s", name);	
-	printf("»ç¿ëÀÚÀÇ Á¡¼ö : ");
+	printf("ì‚¬ìš©ìì˜ ì ìˆ˜ : ");
 	scanf("%d", &point);
 
 	fprintf(rf, "%s %d %d.%d.%d\n", name, point, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday);
