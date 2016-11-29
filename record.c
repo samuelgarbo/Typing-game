@@ -19,39 +19,8 @@ typedef struct {
 }RECORD;
 
 int main()
-{
-	int MenuSelect;
-
-	while(1)
-	{
-	printf("1. 긴 글 기록\n2. 짧은 글 기록\n3. 단어 기록\n4. 게임 기록\n\n");
-	printf("메뉴 선택 : ");
-	scanf("%d", &MenuSelect);
-
-	switch(MenuSelect)
-	{
-	case 1:
-		LongRanking();
-		getch();
-		system("cls");
-		break;
-	case 2:
-		ShortRanking();
-		getch();
-		system("cls");
-		break;
-	case 3:
-		WordRanking();
-		getch();
-		system("cls");
-		break;
-	case 4:
-		GameRanking();
-		getch();
-		system("cls");
-		break;
-	}
-	}
+{	
+	return 0;
 }
  
 void LongRanking() // 긴 글 랭킹 함수.
@@ -63,10 +32,10 @@ void LongRanking() // 긴 글 랭킹 함수.
 	RECORD sr[50], temp_sr;
 
 	while(!feof(r1))
-	{				
-		fscanf(r1, "%s %d %d %s", sr[i].name,  &sr[i].accuracy, &sr[i].TypingSpeed, sr[i].date);		
-		i++;				
-		count++;	
+	{
+		fscanf(r1, "%s %d %d %s", sr[i].name,  &sr[i].accuracy, &sr[i].TypingSpeed, sr[i].date);	
+		i++;
+		count++;
 	}
 
 	for( i = 0; i < count; i++ ) // 정확도를 1순위, 타이핑 속도를 2순위로 내림차순으로 배열 정리.
@@ -101,19 +70,20 @@ void LongRanking() // 긴 글 랭킹 함수.
 								 sr[i].rank++;
 				 }
 	}
-
-	if (count  >= 10) // 저장된 기록이 10개 이상이라면 TOP 10 출력.
+	printf("       ┌──┐       ┌──┐     ┌───┐      ┌──────┐       ┌──┐\n");
+	printf("       │순위│       │이름│     │정확도│      │타이핑 속도 │       │날짜│\n");
+	printf("       └──┘       └──┘     └───┘      └──────┘       └──┘\n\n");
+	if (count >= 10)
 	{
-		printf(" 5순위            이름         정확도       타이핑 속도            날짜\n\n");
 		for (i = 0; i < 10; i++)
-			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+			printf("\t %2d\t       %s\t\t%2d\t\t   %2d\t\t   %2s\n\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
 	}
-	else // 저장된 기록이 1~10개라면 저장된 기록 모두 출력.
+	else
 	{
-		printf(" 순위            이름         정확도       타이핑 속도            날짜\n\n");
 		for (i = 0; i < count; i++)
-			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
-	}	
+			printf("\t %2d\t       %s\t\t%2d\t\t   %2d\t\t   %2s\n\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}
+		
 	fclose(r1);
 }
 
@@ -124,14 +94,15 @@ void ShortRanking() // 짧은 글 랭킹 함수 (자세한 사항은 "긴 글 �
 	FILE *r2 = fopen("ShortRecord.txt", "r");
 
 	RECORD sr[50], temp_sr;
-	
+
+	//for(i = 0; i < count; i++)
 	while(!feof(r2))
 	{
 		fscanf(r2, "%s %d %d %s", sr[i].name,  &sr[i].accuracy, &sr[i].TypingSpeed, sr[i].date);
 		i++;	
 		count++;
 	}
-	
+
 	for( i = 0; i < count; i++ )
 	{
 		for( j = i + 1; j < count; j++ ) 
@@ -164,19 +135,19 @@ void ShortRanking() // 짧은 글 랭킹 함수 (자세한 사항은 "긴 글 �
 								 sr[i].rank++;
 				 }
 	}
-
-	if (count  >= 10) // 저장된 기록이 10개 이상이라면 TOP 10 출력.
+	printf("       ┌──┐       ┌──┐     ┌───┐      ┌──────┐       ┌──┐\n");
+	printf("       │순위│       │이름│     │정확도│      │타이핑 속도 │       │날짜│\n");
+	printf("       └──┘       └──┘     └───┘      └──────┘       └──┘\n\n");
+	if (count >= 10)
 	{
-		printf(" 5순위            이름         정확도       타이핑 속도            날짜\n\n");
 		for (i = 0; i < 10; i++)
-			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+			printf("\t %2d\t       %s\t\t%2d\t\t   %2d\t\t   %2s\n\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
 	}
-	else // 저장된 기록이 1~10개라면 저장된 기록 모두 출력.
+	else
 	{
-		printf(" 순위            이름         정확도       타이핑 속도            날짜\n\n");
 		for (i = 0; i < count; i++)
-			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
-	}	
+			printf("\t %2d\t       %s\t\t%2d\t\t   %2d\t\t   %2s\n\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}
 	fclose(r2);
 }
 
@@ -187,7 +158,8 @@ void WordRanking() // 단어 랭킹 함수 (자세한 사항은 "긴 글 랭킹 
 	FILE *r3 = fopen("WordRecord.txt", "r");
 
 	RECORD sr[50], temp_sr;
-	
+
+	//for(i = 0; i < count; i++)
 	while(!feof(r3))
 	{
 		fscanf(r3, "%s %d %d %s", sr[i].name,  &sr[i].accuracy, &sr[i].TypingSpeed, sr[i].date);
@@ -227,19 +199,19 @@ void WordRanking() // 단어 랭킹 함수 (자세한 사항은 "긴 글 랭킹 
 								 sr[i].rank++;
 				 }
 	}
-
-	if (count  >= 10) // 저장된 기록이 10개 이상이라면 TOP 10 출력.
+	printf("       ┌──┐       ┌──┐      ┌───┐      ┌──────┐       ┌──┐\n");
+	printf("       │순위│       │이름│      │정확도│      │타이핑 속도 │       │날짜│\n");
+	printf("       └──┘       └──┘      └───┘      └──────┘       └──┘\n\n");
+	if (count >= 10)
 	{
-		printf(" 5순위            이름         정확도       타이핑 속도            날짜\n\n");
 		for (i = 0; i < 10; i++)
-			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+			printf("\t %2d\t       %s\t\t%2d\t\t   %2d\t\t   %2s\n\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
 	}
-	else // 저장된 기록이 1~10개라면 저장된 기록 모두 출력.
+	else
 	{
-		printf(" 순위            이름         정확도       타이핑 속도            날짜\n\n");
 		for (i = 0; i < count; i++)
-			printf(" %2d\t\t%s\t\t%2d\t\t%2d\t\t%2s\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
-	}	
+			printf("\t %2d\t       %s\t\t%2d\t\t   %2d\t\t   %2s\n\n", sr[i].rank, sr[i].name, sr[i].accuracy, sr[i].TypingSpeed, sr[i].date);
+	}
 	fclose(r3);
 }
 
@@ -250,10 +222,11 @@ void GameRanking() // 게임 랭킹 함수 (자세한 사항은 "긴 글 랭킹 
 	FILE *r4 = fopen("GameRecord.txt", "r");
 
 	RECORD sr[50], temp_sr;
-	
+
+	//for(i = 0; i < count; i++)
 	while(!feof(r4))
 	{
-		fscanf(r4, "%s %d", sr[i].name, &sr[i].point);
+		fscanf(r4, "%s %d %s", sr[i].name, &sr[i].point, sr[i].date);
 		i++;	
 		count++;
 	}
@@ -272,27 +245,27 @@ void GameRanking() // 게임 랭킹 함수 (자세한 사항은 "긴 글 랭킹 
 		}
 	}
 
-	for(i=0; i < count; i++)
+	for(i=0; i < count ; i++)
     {
                  sr[i].rank=1;
                  for(j=0; j < count; j++)
                          if(sr[i].point < sr[j].point)
 							 sr[i].rank++;
     }
+		printf("       ┌──┐       ┌──┐        ┌──┐              ┌──┐\n");
+		printf("       │순위│       │이름│        │점수│              │날짜│\n");
+		printf("       └──┘       └──┘        └──┘              └──┘\n\n");
 
 	if (count >= 10)
 	{
-		printf(" 순위            이름          게임\n\n");
 		for (i = 0; i < 10; i++)
-			printf(" %2d\t\t%s\t\t%2d\n", sr[i].rank, sr[i].name, sr[i].point);
+			printf("\t %2d\t       %s\t\t%2d\t\t   %2s\n\n", sr[i].rank, sr[i].name, sr[i].point, sr[i].date);
 	}
 	else
 	{
-		printf(" 순위            이름          게임\n\n");
 		for (i = 0; i < count; i++)
-			printf(" %2d\t\t%s\t\t%2d\n", sr[i].rank, sr[i].name, sr[i].point);
-	}		
-		
+			printf("\t %2d\t       %s\t\t%2d\t\t   %2s\n\n", sr[i].rank, sr[i].name, sr[i].point, sr[i].date);
+	}
 	fclose(r4);
 }
 
