@@ -3,18 +3,21 @@
 #include<windows.h>
 #include<conio.h>
 #include<stdlib.h>
+#include <time.h>
 
 #define X 60
 #define Y 20
 #define word_N 6
 #define buf_N 100
 #define keyb_N 100
+#define click 30000
 
 typedef struct invaders {
 	char alien[20];
 	int length, location;
 }word;
 
+void wordGame();							//Game
 void printScreen();							//print out screen array
 void screenInitialize();					//initial screen array values
 void createWordArray(char *buffer,word *w);	//word in file to array
@@ -22,31 +25,47 @@ void wordToScreen( word *w);				//move word in array to screen array
 int moveWordDown(word *w);					//move screen array content 1 row down
 int randNum(int num);						//random number generator. "high" is the limit
 void gotoxy(int x, int y);					//cursor location
-int wordCheck(word *w);
-int wordRemove(int y,word *w);
+int wordCheck(word *w);						//checks if entered word is correct
+int wordRemove(int y,word *w);				//removes word from screen array
+void clearKeyboardInput();					//clear user's received input
+void loseGame(float result);				//When LOSE
+void winGame(float result);					//When WIN
 
 char screen[Y][X], keyboard[keyb_N];
-int wcount = 0;
+int wcount = 0, points = 0;
 
 int main() {
+	wordGame();
+	return 0;
+}
+void wordGame() {
+	float result;
+	clock_t before;
 	word w[word_N];
-	int c, len,res;
+	int c, len, res, t = 0;
 	char buffer[buf_N], ch;
-	
 	srand(time(NULL));
-	createWordArray(buffer,w); //create word array
+	createWordArray(buffer, w); //create word array
 	screenInitialize();	//initialize screen array value to " "
+	before = clock();	//start timer
 	while (1) {
-		wordToScreen(w);
-		system("cls");
-		printScreen();		
-		while (_kbhit()) {	//if keyboard pressed gets input. Backspace erases one character from string
-			c = _getch();			
-			if (c == 13) {
+		if (t % click == 0) {
+			wordToScreen(w);
+			system("cls");
+			printScreen();
+		}
+		while (_kbhit()) {	//checks if key is pressed
+			c = _getch();
+			if (c == 13) {	//"ENTER" key
 				res = wordCheck(w);	//checks if word exists
+				clearKeyboardInput();	//clear keyboard input			
 				if (res > -1) {
-					res=wordRemove(res,w);	//removes and checks if all the words are go
-					if (res == 1) {
+					res = wordRemove(res, w);	//removes and checks if all the words are gone
+					system("cls");
+					printScreen();
+					if (res == 1) {	
+						result = (float)(clock() - before) / CLOCKS_PER_SEC;	//end Timer
+						winGame(result);	//WIN
 						return 0;
 					}
 				}
@@ -54,24 +73,28 @@ int main() {
 			}
 			else if (c == 8) {	//backspace
 				len = strlen(keyboard) - 1;
-				if (len >= 0) {	//erase
+				if (len >= 0) {	//erase last char from string
 					keyboard[len] = '\0';
 				}
 				continue;
 			}
 			ch = c;
-			strncat(keyboard, &ch, 1);	//add char to string			
+			strncat(keyboard, &ch, 1);	//add char to string	
+			gotoxy(1, 1);
+			printf("%s", keyboard);
+			//printScreen();
 		}
-		
-		res = moveWordDown(w);
-		if (res == 1) {
-			return 0;
+		if (t % click == 0) {
+			res = moveWordDown(w);	//moves all the screen content one row down
+			if (res == 1) {
+				result = (float)(clock() - before) / CLOCKS_PER_SEC;	//end Timer
+				loseGame(result);	//LOSE
+				return 0;
+			}
 		}
-		system("cls");
-		printScreen();
-		Sleep(500);
-	}
-	return 0;
+		t++;
+		//Sleep(1000);
+	}	
 }
 void printScreen() {
 	int i, j;
@@ -160,14 +183,14 @@ int moveWordDown(word *w) {
 	for (i = 0; i < word_N; i++) {	//change the location index
 		if (w[i].location > -1) {
 			w[i].location++;
-			if (w[i].location >= Y) {				
+			if (w[i].location >= Y) {	//if word hits bottom				
 				return 1;
 			}
 		}
 	}
 	return 0;
 }
-void gotoxy(int x, int y)//ÁÂÇ¥ÇÔ¼ö
+void gotoxy(int x, int y)//ì¢Œí‘œí•¨ìˆ˜
 {
 	COORD Pos = { x - 1, y - 1 };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
@@ -176,28 +199,48 @@ int wordCheck(word *w) {
 	int i, j, tmp;
 	for (i = 0; i < word_N; i++) {	//checks if word entered is correct
 		if (strcmp(w[i].alien, keyboard) == 0) {
-			for (j = 0; j < keyb_N; j++) {	//clear keyboard input
-				keyboard[j] = '\0';
-			}
+			clearKeyboardInput();	//clear keyboard input			
 			tmp = w[i].location;
-			w[i].location = -2;	//change location as hit
+			w[i].location = -2;	//mark as hit
+			points = points + w[i].length;
 			return tmp;
 		}
-	}
-	for (j = 0; j < keyb_N; j++) {	//clear keyboard input
-		keyboard[j] = '\0';
-	}
+	}	
 	return -1;
 }
 int wordRemove(int y,word *w) {
 	int i;
 	for (i = 0; i < X; i++) {
 		screen[y][i] = ' ';
-	}	
-	for (i = 0; i < word_N; i++) {
+	}
+	for (i = 0; i < word_N; i++) {	//checks if all words are gone
 		if (w[i].location > -1) {
-			return 0;
+			return 0;	//LOSE
 		}
 	}
 	return 1;
+}
+void clearKeyboardInput() {
+	int j;
+	for (j = 0; j < keyb_N; j++) {	//clear keyboard input
+		keyboard[j] = '\0';
+	}
+}
+void loseGame(float result) {
+	system("cls");
+	printf("\n\n");
+	printf("  _  _  ._   _  ._ _. _|_     |  _. _|_ o  _  ._  | | \n");
+	printf(" (_ (_) | | (_| | (_|  |_ |_| | (_|  |_ | (_) | | o o \n");
+	printf("             _|                                       \n");
+	printf("\n");
+		
+}
+void winGame(float result) {
+	system("cls");
+	printf("\n\n");
+	printf("  _  _  ._   _  ._ _. _|_     |  _. _|_ o  _  ._  | | \n");
+	printf(" (_ (_) | | (_| | (_|  |_ |_| | (_|  |_ | (_) | | o o \n");
+	printf("             _|                                       \n");
+	printf("\n");
+	printf("Your time : %.2lf sec\nYour points : %d\n", result, points);
 }
